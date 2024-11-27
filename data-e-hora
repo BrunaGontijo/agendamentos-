@@ -1,0 +1,77 @@
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import './App.css';
+ 
+function App() {
+  // Estado para os campos do formulário
+  const [inputs, setInputs] = useState({});
+  // Estado para a data selecionada
+  const [selectedDate, setSelectedDate] = useState(null);
+ 
+  // Função para lidar com mudanças nos inputs do formulário
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+ 
+  // Função para envio do formulário
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form Inputs:", inputs);
+    console.log("Selected Date:", selectedDate);
+  };
+ 
+  // Custom container para o DatePicker
+  const MyContainer = ({ className, children }) => {
+    return (
+<div style={{ padding: "16px", background: "#216ba5", color: "#fff" }}>
+<div className={className}>
+<div style={{ background: "#f0f0f0" }}>What is your favorite day?</div>
+<div style={{ position: "relative" }}>{children}</div>
+</div>
+</div>
+    );
+  };
+ 
+  return (
+<div>
+<h1>Agendamento de de consultas</h1>
+      {/* Formulário */}
+<form onSubmit={handleSubmit}>
+<label>
+          Compromisso:
+<input
+            type="text"
+            name="username"
+            value={inputs.username || ""}
+            onChange={handleChange}
+          />
+</label>
+<br />
+
+<label>
+          Data do Compromisso:
+<DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            calendarContainer={MyContainer}
+          />
+</label>
+<input type="time"></input>
+
+<label>
+  Horario do compromisso:
+</label>
+<button type="submit">Enviar</button>
+</form>
+</div>
+  );
+}
+
+export default App;
+ 
+// Renderização do componente principal
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
